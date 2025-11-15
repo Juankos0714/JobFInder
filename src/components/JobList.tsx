@@ -44,7 +44,6 @@ export function JobList() {
 
     try {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;

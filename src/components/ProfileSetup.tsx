@@ -148,7 +148,7 @@ export function ProfileSetup({ onComplete }: ProfileSetupProps) {
                 }`}
               />
             </div>
-            <div className={`flex items-center ${step === 'linkedin' ? 'text-blue-600' : step === 'complete' ? 'text-green-600' : 'text-gray-400'}`}>
+            <div className={`flex items-center ${step === 'linkedin' ? 'text-blue-600' : 'text-gray-400'}`}>
               <Linkedin className="w-6 h-6" />
               <span className="ml-2 font-medium">LinkedIn</span>
             </div>
