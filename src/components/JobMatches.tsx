@@ -1,7 +1,28 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import type { Json } from '../lib/database.types';
 import { TrendingUp, CheckCircle2, XCircle, Lightbulb, FileText, Download } from 'lucide-react';
+
+interface OptimizedCV {
+  jobTitle: string;
+  company: string;
+  targetedSkills: string[];
+  highlightedProjects: Array<{
+    name: string;
+    description: string;
+    url: string;
+    technologies: string[];
+    stars: number;
+  }>;
+  highlightedExperience: Array<{
+    company: string;
+    position: string;
+    description: string;
+    duration: string;
+  }>;
+  summary: string;
+}
 
 interface JobMatch {
   id: string;
@@ -9,25 +30,7 @@ interface JobMatch {
   matching_skills: string[];
   missing_skills: string[];
   recommendations: string | null;
-  optimized_cv: {
-    jobTitle: string;
-    company: string;
-    targetedSkills: string[];
-    highlightedProjects: Array<{
-      name: string;
-      description: string;
-      url: string;
-      technologies: string[];
-      stars: number;
-    }>;
-    highlightedExperience: Array<{
-      company: string;
-      position: string;
-      description: string;
-      duration: string;
-    }>;
-    summary: string;
-  };
+  optimized_cv: Json;
   created_at: string;
   job_postings: {
     title: string;
@@ -73,7 +76,7 @@ export function JobMatches() {
   };
 
   const downloadCV = (match: JobMatch) => {
-    const cv = match.optimized_cv;
+    const cv = match.optimized_cv as unknown as OptimizedCV;
     let content = `CV OPTIMIZADO PARA: ${cv.jobTitle} en ${cv.company}\n\n`;
     content += `RESUMEN PROFESIONAL:\n${cv.summary}\n\n`;
     content += `HABILIDADES CLAVE:\n${cv.targetedSkills.join(', ')}\n\n`;
@@ -126,7 +129,7 @@ export function JobMatches() {
   }
 
   if (selectedMatch) {
-    const cv = selectedMatch.optimized_cv;
+    const cv = selectedMatch.optimized_cv as unknown as OptimizedCV;
     return (
       <div>
         <button

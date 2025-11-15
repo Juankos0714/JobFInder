@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import type { Json } from '../lib/database.types';
 
 export interface LinkedInProfile {
   fullName?: string;
@@ -93,7 +94,7 @@ export async function syncLinkedInData(userId: string, linkedInData: LinkedInPro
       location: linkedInData.location,
       bio: linkedInData.summary,
       linkedin_url: linkedInData.profileUrl,
-      linkedin_data: linkedInData,
+      linkedin_data: linkedInData as unknown as Json,
       updated_at: new Date().toISOString(),
     }).eq('id', userId);
 
